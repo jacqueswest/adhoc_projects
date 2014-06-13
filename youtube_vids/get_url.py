@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from json import loads, dumps
+from bottle import route, run
 import requests
 
 top_rated = "http://gdata.youtube.com/feeds/api/standardfeeds/top_rated?v=2&alt=jsonc"
@@ -22,9 +23,19 @@ def videos_list(data):
         videos_dict['videos'][item['id']].update({'url': item['player']['default']})
     return dumps(videos_dict)
 
-data = get_youtube_urls(top_rated)
+@route('/videos/', method='GET')
+def get_youtube_videos():
+    data = get_youtube_urls(top_rated)
+    return videos_list(data)
 
-videos_dict = {"videos":{}}
-print videos_list(data)
+@route('/videos/', method='POST')
+def post_youtube_videos():
+    return {"videos":{"HHHHH":"555555", "FFFFF":"3333333"}}
+
+run(host='localhost', port=8081, debug=True)
+
+
+
+
 
 
